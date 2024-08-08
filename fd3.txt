@@ -1,0 +1,5 @@
+text3
+here3
+it3
+goes!!3
+'\0'3

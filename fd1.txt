@@ -1,0 +1,3 @@
+there was once
+a new line   ;
+plus 3 spaces
