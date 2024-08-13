@@ -6,17 +6,11 @@
 /*   By: chon <chon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 14:24:56 by chon              #+#    #+#             */
-/*   Updated: 2024/01/24 15:57:16 by chon             ###   ########.fr       */
+/*   Updated: 2024/08/13 16:48:48 by chon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
-
-char	*free_and_return_null(char *str)
-{
-	free(str);
-	return (NULL);
-}
 
 char	*move_buffer_pos(char *buffer)
 {
@@ -28,7 +22,7 @@ char	*move_buffer_pos(char *buffer)
 	while (buffer[i] && buffer[i] != '\n')
 		i++;
 	if (!buffer[i])
-		return (free_and_return_null(buffer));
+		return (free(buffer), NULL);
 	new_buffer_pos = malloc(ft_strlen(buffer) - i++ + 1);
 	if (!new_buffer_pos)
 		return (NULL);
@@ -36,7 +30,7 @@ char	*move_buffer_pos(char *buffer)
 	if (!buffer[i])
 	{
 		free(new_buffer_pos);
-		return (free_and_return_null(buffer));
+		return (free(buffer), NULL);
 	}
 	while (buffer[i])
 		new_buffer_pos[j++] = buffer[i++];
@@ -87,7 +81,7 @@ char	*pull_text(char *buffer, int fd)
 		{
 			if (buffer)
 				free(buffer);
-			return (free_and_return_null(text));
+			return (free(text), NULL);
 		}
 		text[bytes_read] = '\0';
 		buffer = ft_strjoin(buffer, text);
