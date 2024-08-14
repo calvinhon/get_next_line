@@ -2,30 +2,32 @@
 
 int	main()
 {
-	// char *line1, *line2, *line3, *line4;
+	// char *line1, *line2, *line3;
+	// char *line4;
 	int fd1, fd2, fd3;
 	// int fd4;
 	char *line;
-	int i = 0;
+	int i = -1;
 	fd1 = open("fd1.txt", O_RDONLY);
 	fd2 = open("fd2.txt", O_RDONLY);
 	fd3 = open("fd3.txt", O_RDONLY);
 	// fd4 = open("a.out", O_RDONLY);
-	while (++i < 10)
+	while (++i < 5)
 	{
 		line = get_next_line(fd1);
 		printf("fd1: %s", line);
 		free (line);
-		line = get_next_line(fd2);
-		printf("fd2: %s", line);
-		free (line);
-		line = get_next_line(fd3);
-		printf("fd3: %s", line);
-		free (line);
+		// line = get_next_line(fd2);
+		// printf("fd2: %s", line);
+		// free (line);
+		// line = get_next_line(fd3);
+		// printf("fd3: %s", line);
+		// free (line);
 		// line = get_next_line(fd4);
 		// printf("fd4: %s", line);
 		// free (line);
 	}
+
 	// line1 = get_next_line(fd1);
 	// while (line1)
 	// {

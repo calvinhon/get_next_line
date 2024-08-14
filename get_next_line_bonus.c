@@ -6,62 +6,44 @@
 /*   By: chon <chon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 14:24:56 by chon              #+#    #+#             */
-/*   Updated: 2024/08/13 16:48:48 by chon             ###   ########.fr       */
+/*   Updated: 2024/08/14 17:12:29 by chon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-char	*move_buffer_pos(char *buffer)
+void	*reset_buffer(char *buffer, int len_incl_nl)
 {
-	char	*new_buffer_pos;
-	int		i;
-	int		j;
+	char	*excess_buffer;
+	int		excess_len;
 
-	i = 0;
-	while (buffer[i] && buffer[i] != '\n')
-		i++;
-	if (!buffer[i])
-		return (free(buffer), NULL);
-	new_buffer_pos = malloc(ft_strlen(buffer) - i++ + 1);
-	if (!new_buffer_pos)
+	if (!ft_strchr(buffer, '\n') || !*(ft_strchr(buffer, '\n') + 1))
+		return (printf("hits\n"), free(buffer), NULL);
+	excess_len = ft_strlen(buffer) - len_incl_nl;
+	excess_buffer = malloc(excess_len + 1);
+	if (!excess_buffer)
 		return (NULL);
-	j = 0;
-	if (!buffer[i])
-	{
-		free(new_buffer_pos);
-		return (free(buffer), NULL);
-	}
-	while (buffer[i])
-		new_buffer_pos[j++] = buffer[i++];
-	new_buffer_pos[j] = '\0';
-	free(buffer);
-	return (new_buffer_pos);
+	ft_memcpy(excess_buffer, buffer + len_incl_nl, excess_len);
+	excess_buffer[excess_len] = '\0';
+	buffer = excess_buffer;
+	free(excess_buffer);
+	return (NULL);
 }
 
-char	*get_line(char *buffer)
+char	*get_line_and_reset_buffer(char *buffer)
 {
 	char	*line;
-	int		i;
+	int		len_incl_nl;
 
-	i = 0;
-	while (buffer[i] && buffer[i] != '\n')
-		i++;
-	line = malloc(i + 2);
+	if (!ft_strchr(buffer, '\n'))
+		return (buffer);
+	len_incl_nl = ft_strchr(buffer, '\n') - buffer + 1;
+	line = malloc(len_incl_nl + 1);
 	if (!line)
 		return (NULL);
-	i = 0;
-	while (buffer[i] && buffer[i] != '\n')
-	{
-		line[i] = buffer[i];
-		i++;
-	}
-	if (buffer[i] == '\n')
-	{
-		line[i] = buffer[i];
-		i++;
-	}
-	line[i] = '\0';
+	ft_memcpy(line, buffer, len_incl_nl);
+	line[len_incl_nl] = '\0';
+	reset_buffer(buffer, len_incl_nl);
 	return (line);
 }
 
@@ -78,11 +60,7 @@ char	*pull_text(char *buffer, int fd)
 	{
 		bytes_read = read(fd, text, BUFFER_SIZE);
 		if (bytes_read == -1)
-		{
-			if (buffer)
-				free(buffer);
 			return (free(text), NULL);
-		}
 		text[bytes_read] = '\0';
 		buffer = ft_strjoin(buffer, text);
 	}
@@ -98,12 +76,8 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE > INT_MAX - 1)
 		return (NULL);
 	buffer[fd] = pull_text(buffer[fd], fd);
-	if (ft_strlen(buffer[fd]) == 0)
-	{
-		free(buffer[fd]);
+	if (!buffer[fd])
 		return (NULL);
-	}
-	line = get_line(buffer[fd]);
-	buffer[fd] = move_buffer_pos(buffer[fd]);
+	line = get_line_and_reset_buffer(buffer[fd]);
 	return (line);
 }
