@@ -6,27 +6,49 @@
 /*   By: chon <chon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 14:24:56 by chon              #+#    #+#             */
-/*   Updated: 2024/08/14 17:15:50 by chon             ###   ########.fr       */
+/*   Updated: 2024/08/15 13:06:11 by chon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-char	*get_line_and_reset_buffer(char **buffer)
+char	*get_excess_buffer(char *buffer)
+{
+	int		len_incl_nl;
+	int		len_excl_nl;
+	char	*new_buffer;
+
+	if (!ft_strchr(buffer, '\n'))
+		return (NULL);
+	len_incl_nl = ft_strchr(buffer, '\n') - buffer + 1;
+	len_excl_nl = ft_strlen(buffer) - len_incl_nl;
+	if (!buffer[len_incl_nl + 1])
+		len_excl_nl++;
+	// printf("buffer:%zu l.i.nl:%d l.e.nl:%d\n", ft_strlen(buffer), len_incl_nl, len_excl_nl);
+	// if (!len_excl_nl)
+	// 	return (NULL);
+	new_buffer = malloc(len_excl_nl + 1);
+	if (!new_buffer)
+		return (NULL);
+	ft_memcpy(new_buffer, buffer + len_incl_nl, len_excl_nl);
+	new_buffer[len_excl_nl] = '\0';
+	free(buffer);
+	return (new_buffer);
+}
+
+char	*get_line(char *buffer)
 {
 	char	*line;
 	int		len_incl_nl;
 
-	if (!ft_strchr(*buffer, '\n'))
-		return (*buffer);
-	len_incl_nl = ft_strchr(*buffer, '\n') - *buffer + 1;
+	if (!ft_strchr(buffer, '\n'))
+		return (buffer);
+	len_incl_nl = ft_strchr(buffer, '\n') - buffer + 1;
 	line = malloc(len_incl_nl + 1);
 	if (!line)
 		return (NULL);
-	ft_memcpy(line, *buffer, len_incl_nl);
+	ft_memcpy(line, buffer, len_incl_nl);
 	line[len_incl_nl] = '\0';
-	if (!ft_strchr(buffer, '\n') || !*(ft_strchr(buffer, '\n') + 1))
-	
 	return (line);
 }
 
@@ -60,7 +82,8 @@ char	*get_next_line(int fd)
 		return (NULL);
 	buffer[fd] = pull_text(buffer[fd], fd);
 	if (!buffer[fd])
-		return (NULL);
-	line = get_line_and_reset_buffer(&buffer[fd]);
+		return (NULL);	
+	line = get_line(buffer[fd]);
+	buffer[fd] = get_excess_buffer(buffer[fd]);
 	return (line);
 }
