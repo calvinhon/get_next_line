@@ -54,7 +54,7 @@ char	*pull_text(char *buffer, int fd)
 	char	*text;
 	int		bytes_read;
 
-	text = malloc(BUFFER_SIZE + 1);
+	text = malloc((long long)BUFFER_SIZE + 1);
 	if (!text)
 		return (NULL);
 	bytes_read = 1;
