@@ -7,22 +7,22 @@ int	main()
 	int fd1, fd2, fd3;
 	// int fd4;
 	char *line;
-	int i = -1;
+	int i = 0;
 	fd1 = open("fd1.txt", O_RDONLY);
 	fd2 = open("fd2.txt", O_RDONLY);
 	fd3 = open("fd3.txt", O_RDONLY);
 	// fd4 = open("a.out", O_RDONLY);
 	while (++i < 10)
 	{
-		// line = get_next_line(fd1);
-		// printf("fd1: %s", line);
-		// free (line);
-		line = get_next_line(fd2);
-		printf("fd2: %s", line);
+		line = get_next_line(fd1);
+		printf("fd1[%02d]: %s\n", i, line);
 		free (line);
-		// line = get_next_line(fd3);
-		// printf("fd3: %s", line);
-		// free (line);
+		line = get_next_line(fd2);
+		printf("fd2[%02d]: %s\n", i, line);
+		free (line);
+		line = get_next_line(fd3);
+		printf("fd3[%02d]: %s\n", i, line);
+		free (line);
 		// line = get_next_line(fd4);
 		// printf("fd4: %s", line);
 		// free (line);

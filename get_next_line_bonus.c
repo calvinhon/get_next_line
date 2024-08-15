@@ -6,7 +6,7 @@
 /*   By: chon <chon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 14:24:56 by chon              #+#    #+#             */
-/*   Updated: 2024/08/15 13:06:11 by chon             ###   ########.fr       */
+/*   Updated: 2024/08/15 13:24:42 by chon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,8 @@ char	*get_excess_buffer(char *buffer)
 		return (NULL);
 	len_incl_nl = ft_strchr(buffer, '\n') - buffer + 1;
 	len_excl_nl = ft_strlen(buffer) - len_incl_nl;
-	if (!buffer[len_incl_nl + 1])
-		len_excl_nl++;
-	// printf("buffer:%zu l.i.nl:%d l.e.nl:%d\n", ft_strlen(buffer), len_incl_nl, len_excl_nl);
-	// if (!len_excl_nl)
-	// 	return (NULL);
+	if (!len_excl_nl)
+		return (free(buffer), NULL);
 	new_buffer = malloc(len_excl_nl + 1);
 	if (!new_buffer)
 		return (NULL);
