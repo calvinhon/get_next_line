@@ -12,7 +12,7 @@ int	main()
 	fd2 = open("fd2.txt", O_RDONLY);
 	fd3 = open("fd3.txt", O_RDONLY);
 	// fd4 = open("a.out", O_RDONLY);
-	while (++i < 5)
+	while (++i < 10)
 	{
 		line = get_next_line(fd1);
 		printf("fd1[%02d]: %s\n", i, line);
