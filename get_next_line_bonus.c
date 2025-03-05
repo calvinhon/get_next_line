@@ -6,7 +6,7 @@
 /*   By: chon <chon@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 14:24:56 by chon              #+#    #+#             */
-/*   Updated: 2024/08/15 13:24:42 by chon             ###   ########.fr       */
+/*   Updated: 2024/08/19 11:25:12 by chon             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char	*get_next_line(int fd)
 		return (NULL);
 	buffer[fd] = pull_text(buffer[fd], fd);
 	if (!buffer[fd])
-		return (NULL);	
+		return (NULL);
 	line = get_line(buffer[fd]);
 	buffer[fd] = get_excess_buffer(buffer[fd]);
 	return (line);
